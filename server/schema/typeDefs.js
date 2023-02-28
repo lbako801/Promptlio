@@ -41,5 +41,14 @@ const typeDefs = graphQL`
     user: User
   }
   
+  type Query {
+    getUsers: User
+  }
+
+  type Mutation {
+    login(username: String!, password: String!): Auth
+    register(name: String!, username: String!, email: String!, password: String!): Auth
+  }
 
   `
+module.exports = typeDefs;
