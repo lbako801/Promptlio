@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -9,6 +10,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    validate: emailValidator,
   },
   username: {
     type: String,
@@ -25,10 +27,19 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: passwordValidator,
   },
+  token: {
+    type: String,
+  },
   profile_pic: {
     type: String,
     default: "/path/to/default/image.jpg",
   },
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    }
+  ],
   prompts: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -53,6 +64,12 @@ const userSchema = new mongoose.Schema({
       ref: "Post",
     },
   ],
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ]
 });
 
 const emailValidator = {
@@ -71,6 +88,17 @@ const passwordValidator = {
   },
   message:
     "Password must be at least 8 characters long and contain at least one capital letter, one number, and one special character.",
+};
+
+userSchema.pre("save", async function (next) {
+  if (this.isNew || this.isModified("password")) {
+    const saltRounds = 10;
+    this.password = await bcrypt.hash(this.password, saltRounds);
+  }
+});
+
+userSchema.methods.isCorrectPassword = async function (password) {
+  return bcrypt.compare(password, this.password);
 };
 
 const User = mongoose.model("User", userSchema);
