@@ -8,7 +8,10 @@ const resolvers = {
         getUsers: async (_, { username, password }) => {
             const user = await User.findOne({ username, password });
             return user;
-        }
+        },
+        posts : async (_, { post }) => {
+            const post = await Post.findOne({ post });
+            return post;
     },
 
     Mutation: {
@@ -27,8 +30,16 @@ const resolvers = {
 
             const token = createToken(user);
             return { token, user };
-        }
-    }
+        },
+
+        createPost: async (_, { post }) => {
+            const post = await Post.create({ post });
+
+            return { post }; 
+        },
+    },
+  }
+    
 
 };
 

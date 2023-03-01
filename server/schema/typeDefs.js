@@ -43,11 +43,14 @@ const typeDefs = graphQL`
   
   type Query {
     getUsers: User
+    posts: [Post]
+    post(id: Int!): Post
   }
 
   type Mutation {
     login(username: String!, password: String!): Auth
     register(name: String!, username: String!, email: String!, password: String!): Auth
+    createPost(post: String!, creator: String!, likes: Int!, createdAt: String!, comment: String!):
   }
 
   `
