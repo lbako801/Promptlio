@@ -2,16 +2,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Roboto&display=swap');
 
 body {
-    /* Below are simple CSS resets */
+    /* Below are simple CSS resets to start with */
+
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
     /* Below we can insert CSS variables for things we will use often */
+
     --transition: all 400ms ease;
-    --color-bg: ;
-    --color-bg-alt: ;
-    --color-primary: ;
-    --color-secondary: ;
+    --color-bg:#101113 ;
+    --color-bg-alt: #1c1d21;
+    --color-primary:#f2f3f4 ;
+    --color-secondary:#464a53 ;
     --display: 'Bungee', cursive;
     --text:'Roboto', sans-serif;
 }
