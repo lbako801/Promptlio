@@ -11,10 +11,11 @@ body {
     /* Below we can insert CSS variables for things we will use often */
 
     --transition: all 400ms ease;
-    --color-bg:#101113 ;
+    --color-bg:#101113;
     --color-bg-alt: #1c1d21;
-    --color-primary:#f2f3f4 ;
-    --color-secondary:#464a53 ;
+    --brandcolor:#e6ff00;
+    --textcolor-main:#f2f3f4;
+    --textcolor-alt:#464a53;
     --display: 'Bungee', cursive;
     --text:'Roboto', sans-serif;
 }
