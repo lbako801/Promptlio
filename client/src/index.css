@@ -7,7 +7,7 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
+    background-color: var(--color-bg);
     /* Below we can insert CSS variables for things we will use often */
 
     --transition: all 400ms ease;
