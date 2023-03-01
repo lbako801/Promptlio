@@ -45,12 +45,16 @@ const typeDefs = graphQL`
     getUsers: User
     posts: [Post]
     post(id: Int!): Post
+    comment(post: ID): Comment
+    prompts: Prompt
   }
 
   type Mutation {
     login(username: String!, password: String!): Auth
     register(name: String!, username: String!, email: String!, password: String!): Auth
-    createPost(post: String!, creator: String!, likes: Int!, createdAt: String!, comment: String!):
+    createPost(post: String!, creator: String!, likes: Int!, createdAt: String!, comment: String!): Post
+    addComment(post: ID!, creator: String!, text: String!, created_at: String!): Comment
+    newPrompt(title: String!, ): Prompt
   }
 
   `
