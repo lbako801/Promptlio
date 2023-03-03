@@ -1,0 +1,38 @@
+/* The import will be importing the two fonts we use. Bungee for displays, and Roboto for all text content :) */
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Roboto&display=swap');
+
+body {
+    /* Below are simple CSS resets to start with */
+
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--color-bg);
+    /* Below we can insert CSS variables for things we will use often */
+
+    --transition: all 400ms ease;
+    --color-bg:#101113;
+    --color-bg-alt: #1c1d21;
+    --brandcolor:#e6ff00;
+    --textcolor-main:#f2f3f4;
+    --textcolor-alt:#464a53;
+    --display: 'Bungee', cursive;
+    --text:'Roboto', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Deletes the default browser scroll bar on browsers that have that functionality, we can design our own later */
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* Delete this once not needed lol */
+h1{
+    text-align: center;
+    font-family: var(--display);
+    font-size: 4rem;
+}
