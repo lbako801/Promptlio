@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
 
-const LoginContainer = styled("div")(({ theme }) => ({
+const SignupContainer = styled("div")(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -12,7 +12,7 @@ const LoginContainer = styled("div")(({ theme }) => ({
   fontFamily: theme.typography.fontFamily.display,
 }));
 
-const LoginCard = styled(Box)(({ theme }) => ({
+const SignupCard = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   height: "fit-content",
@@ -22,4 +22,9 @@ const LoginCard = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.bgAlt,
 }));
 
-export { LoginContainer, LoginCard };
+const Form = styled("form")(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+}));
+
+export { SignupContainer, SignupCard, Form };
