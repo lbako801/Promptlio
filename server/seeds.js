@@ -1,4 +1,4 @@
-const { User } = require('./schema/models/user');
+const { User, Post, Prompt } = require('./schema/models/index');
 
 async function seedUsers() {
 
@@ -95,34 +95,22 @@ async function seedUsers() {
         }
     ];
 
-    const postData = [
-        {
-            "title": "Post 1",
-            "body": "This is the first post",
-            "author": "johndoe"
-        },
-        {
-            "title": "Post 2",
-            "body": "This is the second post",
-            "author": "janesmith"
-        }
-
-    ]
-
-    const promptData = [
-        {
-            title: "Prompt 1",
-            category: "1"
-        }
-    ];
-    
     try {
         await User.deleteMany({});
-        await User.create(userData);
         await Prompt.deleteMany({});
-        await Prompt.create(promptData);
         await Post.deleteMany({});
-        await Post.create(postData);
+        await User.create(userData);
+
+        const promptData = [
+            {
+                title: "Prompt 1",
+                category: "1",
+            }
+        ];
+
+   
+        await Prompt.create(promptData);
+  
     } catch (err) {
         console.log(err);
     }

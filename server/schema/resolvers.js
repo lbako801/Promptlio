@@ -1,80 +1,51 @@
-const { User, Post, Prompt, Comment } = require('./models/index');
-const {createToken} = require('../utils/auth');
-const { AuthenticationError } = require('apollo-server-express');
-console.log(createToken);
+const { User, Post, Prompt, Comment } = require("./models/index");
+const { createToken } = require("../utils/auth");
+const { AuthenticationError } = require("apollo-server-express");
+const bcrypt = require("bcrypt");
 
 const resolvers = {
-
     Query: {
         getUsers: async () => {
             const user = await User.find();
             return user;
         },
-        
-        posts: async () => {
+
+        getPrompts: async () => {
+            const prompt = await Prompt.find();
+            return prompt;
+        },
+
+        getPosts: async () => {
             const post = await Post.find();
             return post;
         },
-        
-        // prompt: async (_, { title, category }) => {
-        //     const params = {};
-
-        //     if (title) {
-        //         params.title = title;
-        //     }
-
-        //     if (category) {
-        //         params.category = category;
-        //     }
-
-        //     const prompt = await Prompt.find(params).populate({ prompt });
-        //     return prompt;
-        // },
-
-        // comment: async (_, { post }) => {
-        //     const comment = await Comment.findOne({ post });
-        //     return comment;
-        // }
     },
 
     Mutation: {
-        register: async ({ email, username, password }) => {
+        register: async (_, { email, username, password }) => {
             const user = await User.create({ email, username, password });
             const token = createToken(user);
             return { token, user };
         },
 
-        // login: async (_, { username, password }) => {
-        //     const user = await User.findOne({ username, password });
+        login: async (_, { username, password }) => {
+            const user = await User.findOne({ username });
 
-        //     if (!user.username || !user.password) {
-        //         throw new AuthenticationError('Username or password is incorrect!');
-        //     }
+            if (!user) {
+                throw new AuthenticationError("Incorrect credentials - user");
+            }
 
-        //     const token = createToken(user);
-        //     return { token, user };
-        // },
+            const pwCheck = await bcrypt.compare(password, user.password);
 
-        // createPost: async (_, { post }) => {
-        //     const post = await Post.create({ post });
+            if (!pwCheck) {
+                throw new AuthenticationError("Incorrect credentials - pw");
+            }
 
-        //     return { post }; 
-        // },
+            const token = createToken(user);
 
-        // addComment: async (_, { post }, context) => {
-        //     console.log(context);
-
-        //     if (context.user) {
-        //         const comment = new Comment ({ post });
-
-        //         await User.findByIdAndUpdate(context.user.id, { $push: {comment: comment}});
-
-        //         return comment;
-        //     }
-            
-        //     throw new AuthenticationError('Not logged in');
-        // },
-    },   
+            return { token, user };
+        },
+    }
 };
 
 module.exports = resolvers;
