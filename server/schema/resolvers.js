@@ -1,6 +1,7 @@
-const { User, Post, Prompt, Comment } = require('.schema');
-const createToken = require('../utils/auth');
+const { User, Post, Prompt, Comment } = require('./models/index');
+const {createToken} = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
+console.log(createToken);
 
 const resolvers = {
 
@@ -10,69 +11,69 @@ const resolvers = {
             return user;
         },
         
-        posts: async (_, { post }) => {
-            const post = await Post.findOne({ post });
-            return post;
-        },
+        // posts: async (_, { post }) => {
+        //     const post = await Post.findOne({ post });
+        //     return post;
+        // },
         
-        prompt: async (_, { title, category }) => {
-            const params = {};
+        // prompt: async (_, { title, category }) => {
+        //     const params = {};
 
-            if (title) {
-                params.title = title;
-            }
+        //     if (title) {
+        //         params.title = title;
+        //     }
 
-            if (category) {
-                params.category = category;
-            }
+        //     if (category) {
+        //         params.category = category;
+        //     }
 
-            const prompt = await Prompt.find(params).populate({ prompt });
-            return prompt;
-        },
+        //     const prompt = await Prompt.find(params).populate({ prompt });
+        //     return prompt;
+        // },
 
-        comment: async (_, { post }) => {
-            const comment = await Comment.findOne({ post });
-            return comment;
-        }
+        // comment: async (_, { post }) => {
+        //     const comment = await Comment.findOne({ post });
+        //     return comment;
+        // }
     },
 
     Mutation: {
-        register: async (_, { name, email, username, password }) => {
-            const user = await User.create({ name, email, username, password });
+        register: async (_, { unique_id, email, username, password }) => {
+            const user = await User.create({ unique_id, email, username, password });
             const token = createToken(user);
             return { token, user };
         },
 
-        login: async (_, { username, password }) => {
-            const user = await User.findOne({ username, password });
+        // login: async (_, { username, password }) => {
+        //     const user = await User.findOne({ username, password });
 
-            if (!user.username || !user.password) {
-                throw new AuthenticationError('Username or password is incorrect!');
-            }
+        //     if (!user.username || !user.password) {
+        //         throw new AuthenticationError('Username or password is incorrect!');
+        //     }
 
-            const token = createToken(user);
-            return { token, user };
-        },
+        //     const token = createToken(user);
+        //     return { token, user };
+        // },
 
-        createPost: async (_, { post }) => {
-            const post = await Post.create({ post });
+        // createPost: async (_, { post }) => {
+        //     const post = await Post.create({ post });
 
-            return { post }; 
-        },
+        //     return { post }; 
+        // },
 
-        addComment: async (_, { post }, context) => {
-            console.log(context);
+        // addComment: async (_, { post }, context) => {
+        //     console.log(context);
 
-            if (context.user) {
-                const comment = new Comment ({ post });
+        //     if (context.user) {
+        //         const comment = new Comment ({ post });
 
-                await User.findByIdAndUpdate(context.user.id, { $push: {comment: comment}});
+        //         await User.findByIdAndUpdate(context.user.id, { $push: {comment: comment}});
 
-                return comment;
-            }
+        //         return comment;
+        //     }
             
-            throw new AuthenticationError('Not logged in');
-        },
+        //     throw new AuthenticationError('Not logged in');
+        // },
     },   
 };
 
