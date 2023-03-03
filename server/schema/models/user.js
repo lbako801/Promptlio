@@ -1,11 +1,25 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
+const emailValidator = {
+  validator: function (value) {
+    const emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+    return emailRegex.test(value);
   },
+  message: "Please enter a valid email address",
+};
+
+const passwordValidator = {
+  validator: function (value) {
+    const passwordRegex =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(value);
+  },
+  message:
+    "Password must be at least 8 characters long and contain at least one capital letter, one number, and one special character.",
+};
+
+const userSchema = new mongoose.Schema({  
   email: {
     type: String,
     required: true,
@@ -72,28 +86,16 @@ const userSchema = new mongoose.Schema({
   ]
 });
 
-const emailValidator = {
-  validator: function (value) {
-    const emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-    return emailRegex.test(value);
-  },
-  message: "Please enter a valid email address",
-};
-
-const passwordValidator = {
-  validator: function (value) {
-    const passwordRegex =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(value);
-  },
-  message:
-    "Password must be at least 8 characters long and contain at least one capital letter, one number, and one special character.",
-};
 
 userSchema.pre("save", async function (next) {
   if (this.isNew || this.isModified("password")) {
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
+  }
+
+  if (this.isNew) {
+    const userUniqueId = Math.floor(100000 + Math.random() * 900000).toString();
+    this.unique_id = userUniqueId;
   }
 });
 
@@ -103,4 +105,4 @@ userSchema.methods.isCorrectPassword = async function (password) {
 
 const User = mongoose.model("User", userSchema);
 
-module.exports = User;
+module.exports = {User};

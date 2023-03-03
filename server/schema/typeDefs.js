@@ -1,12 +1,12 @@
-const graphQL = require('apollo-server-express');
+const { gql } = require('apollo-server-express');
 
-const typeDefs = graphQL`
+const typeDefs = gql`
 
   type User {
-    id: ID!
-    name: String!
+    id: ID!        
     username: String!
     email: String!
+    token: String!    
     profile_pic: String!
     posts: [Post]!
     prompts: [Prompt]!
@@ -51,7 +51,7 @@ const typeDefs = graphQL`
 
   type Mutation {
     login(username: String!, password: String!): Auth
-    register(name: String!, username: String!, email: String!, password: String!): Auth
+    register(unique_id: String!, username: String!, email: String!, password: String!, token: String!): Auth
     createPost(post: String!, creator: String!, likes: Int!, createdAt: String!, comment: String!): Post    
     addComment(post: ID!, creator: String!, text: String!, created_at: String!): Comment    
   }
