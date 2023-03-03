@@ -6,15 +6,15 @@ console.log(createToken);
 const resolvers = {
 
     Query: {
-        getUsers: async (_, { username, password }) => {
-            const user = await User.findOne({ username, password });
+        getUsers: async () => {
+            const user = await User.find();
             return user;
         },
         
-        // posts: async (_, { post }) => {
-        //     const post = await Post.findOne({ post });
-        //     return post;
-        // },
+        posts: async () => {
+            const post = await Post.find();
+            return post;
+        },
         
         // prompt: async (_, { title, category }) => {
         //     const params = {};
@@ -38,8 +38,8 @@ const resolvers = {
     },
 
     Mutation: {
-        register: async (_, { unique_id, email, username, password }) => {
-            const user = await User.create({ unique_id, email, username, password });
+        register: async ({ email, username, password }) => {
+            const user = await User.create({ email, username, password });
             const token = createToken(user);
             return { token, user };
         },

@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dbConnection = require("./config/connection");
 const bodyParser = require("body-parser");
 const { ApolloServer } = require("apollo-server-express");
+const seedUsers = require("./seeds.js");
 
 const typeDefs = require("./schema/typeDefs");
 const resolvers = require("./schema/resolvers");
@@ -25,6 +26,7 @@ const startApolloServer = async (typeDefs, resolvers) => {
   server.applyMiddleware({ app });
 
   dbConnection.once("open", () => {
+    seedUsers();
     app.listen(PORT, () => {
       console.log(`API server running on port ${PORT}!`);
       console.log(
