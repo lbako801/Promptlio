@@ -6,8 +6,8 @@ console.log(createToken);
 const resolvers = {
 
     Query: {
-        getUsers: async (_, { username, password }) => {
-            const user = await User.findOne({ username, password });
+        getUsers: async () => {
+            const user = await User.find();
             return user;
         },
         
