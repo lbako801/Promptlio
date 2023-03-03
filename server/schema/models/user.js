@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const shortid = require('shortid');
 
 const emailValidator = {
   validator: function (value) {
@@ -35,6 +36,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    default: shortid.generate,
   },
   password: {
     type: String,
@@ -63,7 +65,7 @@ const userSchema = new mongoose.Schema({
   following: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "User.username",
     },
   ],
   followers: [
@@ -85,7 +87,6 @@ const userSchema = new mongoose.Schema({
     },
   ]
 });
-
 
 userSchema.pre("save", async function (next) {
   if (this.isNew || this.isModified("password")) {
