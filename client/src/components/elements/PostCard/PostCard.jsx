@@ -9,7 +9,10 @@ import {
 } from "./PostCard.styles";
 
 const PostCard = ({ prompt, photo, creatorName, createdAt, caption }) => {
-  const formattedDate = new Date(createdAt).toDateString();
+  const convertedDate = parseInt(createdAt);
+  const formattedDate = new Date(
+    convertedDate !== "NaN" ? convertedDate : createdAt
+  ).toDateString();
 
   return (
     <StyledPostCard>

@@ -5,20 +5,28 @@ import { Login, Signup, Home } from "./pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import theme from "./theme/Promptlio";
 import { ThemeProvider } from "@mui/material/styles";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: "/graphql",
+  cache: new InMemoryCache(),
+});
 
 const app = () => {
   return (
     <div>
-      <Router>
-        <ThemeProvider theme={theme}>
-          <Nav />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-          </Routes>
-        </ThemeProvider>
-      </Router>
+      <ApolloProvider client={client}>
+        <Router>
+          <ThemeProvider theme={theme}>
+            <Nav />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </Routes>
+          </ThemeProvider>
+        </Router>
+      </ApolloProvider>
       <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Roboto&display=swap" />
     </div>
   );
