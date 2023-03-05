@@ -1,47 +1,31 @@
 import React from "react";
 import { Root } from "./Home.styles";
 import { PostCard } from "../../components";
-
-const dummyPostData = [
-  {
-    prompt: "FIND A COFFEE SHOP",
-    photo: "TEST PHOTO URL",
-    creatorName: "Hugh Mungus",
-    createdAt: "2023-03-03T04:31:38+00:00",
-    caption: "WE FOUND THE COOLEST COFFE SHOP, BLACK RIFLE COFFEE COMPANY!",
-  },
-  {
-    prompt: "FIND An Offroad SHOP",
-    photo: "TEST PHOTO URL",
-    creatorName: "Hugh Mungus",
-    createdAt: "2023-03-03T04:31:38+00:00",
-  },
-  {
-    prompt: "FIND A gun SHOP",
-    photo: "TEST PHOTO URL",
-    creatorName: "Hugh Mungus",
-    createdAt: "2023-03-03T04:31:38+00:00",
-  },
-  {
-    prompt: "FIND A Tea SHOP",
-    photo: "TEST PHOTO URL",
-    creatorName: "Hugh Mungus",
-    createdAt: "2023-03-03T04:31:38+00:00",
-  },
-];
+import { useQuery } from "@apollo/client";
+import { QUERY_POSTS } from "../../utils/queries";
 
 const Home = () => {
+  const { loading, data } = useQuery(QUERY_POSTS);
+  const { getPosts: posts } = data || [];
+
   return (
     <Root>
-      {dummyPostData?.length > 0 &&
-        dummyPostData.map(
-          ({ prompt, photo, creatorName, createdAt, caption }) => (
+      {posts &&
+        posts?.length > 0 &&
+        posts.map(
+          ({
+            prompt: { title: prompt },
+            photo,
+            creator: { username: creatorName },
+            created_at,
+            caption,
+          }) => (
             <PostCard
               key={prompt}
               prompt={prompt}
               photo={photo}
               creatorName={creatorName}
-              createdAt={createdAt}
+              createdAt={created_at}
               caption={caption}
             />
           )
