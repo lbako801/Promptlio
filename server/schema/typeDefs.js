@@ -1,19 +1,18 @@
-const { gql } = require('apollo-server-express');
+const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-
   type User {
-    unique_id: ID        
+    unique_id: ID
     username: String
     email: String
-    token: String    
+    token: String
     password: String
     profile_pic: String
     posts: [Post]
     prompts: [Prompt]
     comments: [Comment]
   }
-  
+
   type Post {
     creator: User
     prompt: Prompt
@@ -30,6 +29,7 @@ const typeDefs = gql`
   }
 
   type Prompt {
+    _id: ID
     title: String!
     category: String!
     created_at: String!
@@ -47,15 +47,14 @@ const typeDefs = gql`
     getPosts: [Post]
     getPrompts: [Prompt]
     post(id: Int!): Post
-    comment(post: ID): Comment    
+    comment(post: ID): Comment
   }
 
   type Mutation {
     login(username: String!, password: String!): Auth
     register(username: String!, email: String!, password: String!): Auth
     createPost(prompt: String!, creator: String!): Post
-    createComment(post: ID!, creator: String!, text: String!): Comment    
+    createComment(post: ID!, creator: String!, text: String!): Comment
   }
-
-  `
+`;
 module.exports = typeDefs;
