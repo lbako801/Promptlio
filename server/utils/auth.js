@@ -41,10 +41,6 @@ const createToken = async (req, res, next) => {
       res.status(200).send(User);
     }
   } catch (err) {
-    return res.status(500).send({
-      success: false,
-      message: err.message,
-    });
   }
 };
 
