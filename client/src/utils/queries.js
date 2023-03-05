@@ -13,3 +13,12 @@ export const QUERY_POSTS = gql`
     }
   }
 `;
+
+export const QUERY_PROMPTS = gql`
+  query Query {
+    getPrompts {
+      _id
+      title
+    }
+  }
+`;
