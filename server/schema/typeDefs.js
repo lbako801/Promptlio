@@ -13,12 +13,12 @@ const typeDefs = gql`
     prompts: [Prompt]
     comments: [Comment]
   }
-
+  
   type Post {
-    creator: User!
-    prompt: Prompt!
-    likes: [User]!
-    created_at: String!
+    creator: User
+    prompt: Prompt
+    likes: [User]
+    created_at: String
     comments: [Comment]
   }
 
@@ -45,7 +45,7 @@ const typeDefs = gql`
   type Query {
     getUsers: [User]
     getPosts: [Post]
-    getPrompt: [Prompt]
+    getPrompts: [Prompt]
     post(id: Int!): Post
     comment(post: ID): Comment    
   }
@@ -53,8 +53,8 @@ const typeDefs = gql`
   type Mutation {
     login(username: String!, password: String!): Auth
     register(username: String!, email: String!, password: String!): Auth
-    createPost(post: String!, creator: String!, likes: Int!, createdAt: String!, comment: String!): Post    
-    addComment(post: ID!, creator: String!, text: String!, created_at: String!): Comment    
+    createPost(prompt: String!, creator: String!): Post
+    createComment(post: ID!, creator: String!, text: String!): Comment    
   }
 
   `

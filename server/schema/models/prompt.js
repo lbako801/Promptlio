@@ -25,4 +25,4 @@ const promptSchema = new mongoose.Schema({
 
 const Prompt = mongoose.model('Prompt', promptSchema);
 
-module.exports = Prompt;
+module.exports = {Prompt};
