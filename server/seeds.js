@@ -99,7 +99,8 @@ async function seedUsers() {
         await User.deleteMany({});
         await Prompt.deleteMany({});
         await Post.deleteMany({});
-        await User.create(userData);
+
+        const user = await User.create(userData);
 
         const promptData = [
             {
@@ -107,9 +108,17 @@ async function seedUsers() {
                 category: "1",
             }
         ];
-
    
-        await Prompt.create(promptData);
+        const prompt = await Prompt.create(promptData);        
+        
+        const postData = [
+            {
+                prompt: prompt[0]._id,
+                creator: user[0]._id 
+            }
+        ]
+
+        await Post.create(postData);
   
     } catch (err) {
         console.log(err);

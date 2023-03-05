@@ -13,7 +13,7 @@ const postSchema = new mongoose.Schema({
   },
   likes: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User,'
+    ref: 'User'
   }],
   created_at: {
     type: Date,
