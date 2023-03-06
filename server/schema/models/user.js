@@ -62,6 +62,10 @@ const userSchema = new mongoose.Schema({
       ref: "Prompt",
     },
   ],
+  activePrompt: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Prompt",
+  },
   following: [
     {
       type: mongoose.Schema.Types.ObjectId,

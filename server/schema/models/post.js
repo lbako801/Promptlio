@@ -11,6 +11,9 @@ const postSchema = new mongoose.Schema({
     ref: 'Prompt',
     required: true
   },
+  caption: {
+    type: String,
+  },
   likes: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

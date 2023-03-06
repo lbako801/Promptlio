@@ -11,11 +11,13 @@ const typeDefs = gql`
     posts: [Post]
     prompts: [Prompt]
     comments: [Comment]
+    activePrompt: [Prompt]
   }
 
   type Post {
     creator: User
     prompt: Prompt
+    caption: String
     likes: [User]
     created_at: String
     comments: [Comment]
@@ -53,8 +55,10 @@ const typeDefs = gql`
   type Mutation {
     login(username: String!, password: String!): Auth
     register(username: String!, email: String!, password: String!): Auth
-    createPost(prompt: String!, creator: String!): Post
+    createPost(promptId: ID!, caption: String): Post!
     createComment(post: ID!, creator: String!, text: String!): Comment
+    activePrompt(activePrompt: String ): User
+    getCurrentPrompt(promptId: ID!): Prompt
   }
 `;
 module.exports = typeDefs;
