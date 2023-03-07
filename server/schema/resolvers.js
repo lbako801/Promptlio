@@ -1,79 +1,74 @@
-const { User, Post, Prompt, Comment } = require('.schema');
-const createToken = require('../utils/auth');
-const { AuthenticationError } = require('apollo-server-express');
+const { User, Post, Prompt, Comment } = require("./models/index");
+const { signToken } = require("../utils/auth");
+const { AuthenticationError } = require("apollo-server-express");
+const bcrypt = require("bcrypt");
 
 const resolvers = {
-
-    Query: {
-        getUsers: async (_, { username, password }) => {
-            const user = await User.findOne({ username, password });
-            return user;
-        },
-        
-        posts: async (_, { post }) => {
-            const post = await Post.findOne({ post });
-            return post;
-        },
-        
-        prompt: async (_, { title, category }) => {
-            const params = {};
-
-            if (title) {
-                params.title = title;
-            }
-
-            if (category) {
-                params.category = category;
-            }
-
-            const prompt = await Prompt.find(params).populate({ prompt });
-            return prompt;
-        },
-
-        comment: async (_, { post }) => {
-            const comment = await Comment.findOne({ post });
-            return comment;
-        }
+  Query: {
+    getUsers: async () => {
+      const user = await User.find();
+      return user;
     },
 
-    Mutation: {
-        register: async (_, { name, email, username, password }) => {
-            const user = await User.create({ name, email, username, password });
-            const token = createToken(user);
-            return { token, user };
-        },
+    getPrompts: async () => {
+      const prompt = await Prompt.find();
+      return prompt;
+    },
 
-        login: async (_, { username, password }) => {
-            const user = await User.findOne({ username, password });
+    getPosts: async () => {
+      const post = await Post.find({}).populate("prompt").populate("creator");
+      return post;
+    },
+  },
 
-            if (!user.username || !user.password) {
-                throw new AuthenticationError('Username or password is incorrect!');
-            }
+  Mutation: {
+    register: async (_, { email, username, password }) => {
+      const user = await User.create({ email, username, password });
+      return user;
+    },
 
-            const token = createToken(user);
-            return { token, user };
-        },
+    login: async (_, { username, password }) => {
+      const user = await User.findOne({ username });
 
-        createPost: async (_, { post }) => {
-            const post = await Post.create({ post });
+      if (!user) {
+        throw new AuthenticationError("Incorrect credentials - user");
+      }
 
-            return { post }; 
-        },
+      const pwCheck = await bcrypt.compare(password, user.password);
 
-        addComment: async (_, { post }, context) => {
-            console.log(context);
+      if (!pwCheck) {
+        throw new AuthenticationError("Incorrect credentials - pw");
+      }
 
-            if (context.user) {
-                const comment = new Comment ({ post });
+      const token = signToken(user);
 
-                await User.findByIdAndUpdate(context.user.id, { $push: {comment: comment}});
+      return { token, user };
+    },
 
-                return comment;
-            }
-            
-            throw new AuthenticationError('Not logged in');
-        },
-    },   
+    activePrompt: async (_, { promptId }, { user }) => {
+      const prompt = await Prompt.findById(promptId);
+
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: user._id },
+        { $set: { activePrompt: prompt._id } },
+        { new: true }
+      );
+
+      return updatedUser.activePrompt;
+    },
+
+    createPost: async (_, { promptId, caption }, { user }) => {
+      const post = new Post({
+        creator: user._id,
+        prompt: promptId,
+        caption,
+      });
+
+      const savedPost = await post.save();
+
+      return savedPost;
+    },
+  },
 };
 
 module.exports = resolvers;

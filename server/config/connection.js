@@ -1,8 +1,11 @@
-const { connect, connection } = require("mongoose");
+const mongoose = require("mongoose");
 
-connect("mongodb://127.0.0.1:27017/promptlio", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/promptlio",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
-module.exports = connection;
+module.exports = mongoose.connection;

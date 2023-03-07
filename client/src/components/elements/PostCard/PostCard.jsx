@@ -1,19 +1,29 @@
 import React from "react";
-import { CreatorInfo, CreatorName, CreatedAt } from "./PostCard.styles";
-import { Card } from "../../../components";
+import {
+  StyledPostCard,
+  CreatorInfo,
+  CreatorName,
+  CreatedAt,
+  Prompt,
+  Caption,
+} from "./PostCard.styles";
 
-const PostCard = ({ prompt, photo, creatorName, createdAt }) => {
-  const formattedDate = new Date(createdAt).toDateString();
+const PostCard = ({ prompt, photo, creatorName, createdAt, caption }) => {
+  const convertedDate = parseInt(createdAt);
+  const formattedDate = new Date(
+    convertedDate !== "NaN" ? convertedDate : createdAt
+  ).toDateString();
 
   return (
-    <Card>
+    <StyledPostCard>
+      {/* TODO: implement photos when ready */}
       <CreatorInfo>
         <CreatorName>{creatorName}</CreatorName>
         <CreatedAt>{formattedDate}</CreatedAt>
       </CreatorInfo>
-      {prompt}
-      {photo}
-    </Card>
+      <Prompt>Prompt: {prompt}</Prompt>
+      {caption && <Caption>"{caption}"</Caption>}
+    </StyledPostCard>
   );
 };
 

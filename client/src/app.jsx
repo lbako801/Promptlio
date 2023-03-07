@@ -1,26 +1,55 @@
 // I made all components a .jsx instead of a .js file. This is so we can use the 'rafce' module and make it easier to get started for each component!
 import React from "react";
-import Nav from "./components/nav/nav";
-import { Login, Signup, Home } from "./pages";
+import { Header } from "./components";
+import { Login, Signup, Home, ChoosePrompt } from "./pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import theme from "./theme/Promptlio";
 import { ThemeProvider } from "@mui/material/styles";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+
+const httpLink = createHttpLink({
+  uri: "/graphql",
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem("user-token");
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
+
+const client = new ApolloClient({
+  uri: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 const app = () => {
   return (
-    <div>
-      <Router>
-        <ThemeProvider theme={theme}>
-          <Nav />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-          </Routes>
-        </ThemeProvider>
-      </Router>
+    <>
+      <ApolloProvider client={client}>
+        <Router>
+          <ThemeProvider theme={theme}>
+            <Header />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/choose-prompt" element={<ChoosePrompt />} />
+            </Routes>
+          </ThemeProvider>
+        </Router>
+      </ApolloProvider>
       <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Roboto&display=swap" />
-    </div>
+    </>
   );
 };
 

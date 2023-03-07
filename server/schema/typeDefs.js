@@ -1,23 +1,25 @@
-const graphQL = require('apollo-server-express');
+const { gql } = require("apollo-server-express");
 
-const typeDefs = graphQL`
-
+const typeDefs = gql`
   type User {
-    id: ID!
-    name: String!
-    username: String!
-    email: String!
-    profile_pic: String!
-    posts: [Post]!
-    prompts: [Prompt]!
-    comments: [Comment]!
+    unique_id: ID
+    username: String
+    email: String
+    token: String
+    password: String
+    profile_pic: String
+    posts: [Post]
+    prompts: [Prompt]
+    comments: [Comment]
+    activePrompt: [Prompt]
   }
 
   type Post {
-    creator: User!
-    prompt: Prompt!
-    likes: [User]!
-    created_at: String!
+    creator: User
+    prompt: Prompt
+    caption: String
+    likes: [User]
+    created_at: String
     comments: [Comment]
   }
 
@@ -29,6 +31,7 @@ const typeDefs = graphQL`
   }
 
   type Prompt {
+    _id: ID
     title: String!
     category: String!
     created_at: String!
@@ -40,21 +43,22 @@ const typeDefs = graphQL`
     token: ID!
     user: User
   }
-  
+
   type Query {
-    getUsers: User
-    posts: [Post]
+    getUsers: [User]
+    getPosts: [Post]
+    getPrompts: [Prompt]
     post(id: Int!): Post
-    prompt: Prompt
-    comment(post: ID): Comment    
+    comment(post: ID): Comment
   }
 
   type Mutation {
     login(username: String!, password: String!): Auth
-    register(name: String!, username: String!, email: String!, password: String!): Auth
-    createPost(post: String!, creator: String!, likes: Int!, createdAt: String!, comment: String!): Post    
-    addComment(post: ID!, creator: String!, text: String!, created_at: String!): Comment    
+    register(username: String!, email: String!, password: String!): User
+    createPost(promptId: ID!, caption: String): Post!
+    createComment(post: ID!, creator: String!, text: String!): Comment
+    activePrompt(activePrompt: String): User
+    getCurrentPrompt(promptId: ID!): Prompt
   }
-
-  `
+`;
 module.exports = typeDefs;
