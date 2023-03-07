@@ -15,8 +15,7 @@ const resolvers = {
       return prompt;
     },
 
-    getPosts: async (_, __, context) => {
-      console.log(context.user);
+    getPosts: async () => {
       const post = await Post.find({}).populate("prompt").populate("creator");
       return post;
     },
