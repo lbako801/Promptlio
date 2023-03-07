@@ -87,7 +87,7 @@ const resolvers = {
         );
 
         return post;
-        
+
       } catch (err) {
         console.log(err);
       }
