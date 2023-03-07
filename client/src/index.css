@@ -9,6 +9,10 @@ body {
   box-sizing: border-box;
   background-color: var(--color-bg);
   color: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* font-family: "Bungee"; */
   /* Below we can insert CSS variables for things we will use often */
 
   --transition: all 400ms ease;
@@ -21,8 +25,13 @@ body {
   --text: "Roboto", sans-serif;
 }
 
+body .MuiTooltip-popper {
+  font-family: "Bungee";
+}
+
 html {
   scroll-behavior: smooth;
+  height: 100%;
 }
 
 /* Deletes the default browser scroll bar on browsers that have that functionality, we can design our own later */

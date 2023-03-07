@@ -8,3 +8,5 @@ export { default as PostCard } from "./elements/PostCard";
 export { default as PromptCard } from "./elements/PromptCard";
 
 export { default as PromptList } from "./composites/PromptList";
+
+export { default as Header } from "./Layout/Header";

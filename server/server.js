@@ -1,9 +1,8 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const dbConnection = require("./config/connection");
-const bodyParser = require("body-parser");
 const { ApolloServer } = require("apollo-server-express");
 const seedUsers = require("./seeds.js");
+const { authMiddleware } = require("./utils/auth");
 
 const typeDefs = require("./schema/typeDefs");
 const resolvers = require("./schema/resolvers");
@@ -11,15 +10,13 @@ const resolvers = require("./schema/resolvers");
 const app = express();
 const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    // context: authMiddleware,
+  typeDefs,
+  resolvers,
+  context: authMiddleware,
 });
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 const startApolloServer = async (typeDefs, resolvers) => {
   await server.start();
