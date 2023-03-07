@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { SignupContainer, SignupCard, Form } from "./Signup.styles";
 import { Input, Button } from "../../components";
+import { useMutation } from "@apollo/client";
+import { REGISTER_USER } from "../../utils/mutations";
 
 const Signup = () => {
+  const [registerUser, { error }] = useMutation(REGISTER_USER);
+
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState(false);
 
@@ -17,7 +21,7 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     let error = false;
     if (!email || !password || !username || !confirmPassword) {
       !email && setEmailError(true);
@@ -55,7 +59,8 @@ const Signup = () => {
     setConfirmPasswordError(false);
     setPasswordHelperText(" ");
 
-    // TODO: Rest of signup logic once backend is hooked up
+    const response = await registerUser({variables: { email, password, username }});
+    console.log(response);
   };
 
   return (
