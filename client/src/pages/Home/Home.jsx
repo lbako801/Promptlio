@@ -11,7 +11,7 @@ const dummyPostData = [
   },
   {
     prompt: "FIND An Offroad SHOP",
-    
+
     photo: "TEST PHOTO URL",
     creatorName: "Hugh Mungus",
     createdAt: "2023-03-03T04:31:38+00:00",
