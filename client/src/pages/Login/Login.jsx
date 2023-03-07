@@ -2,23 +2,43 @@ import React, { useState } from "react";
 import { LoginContainer, LoginCard } from "./Login.styles";
 import { Input, Button } from "../../components";
 
+import { useMutation } from "@apollo/client";
+import { LOGIN } from "../../utils/mutations";
+
+import Auth from "../../utils/auth";
+
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState(false);
+  const [loginUser, { error }] = useMutation(LOGIN);
+
+  const [username, setUsername] = useState("");
+  const [usernameError, setUsernameError] = useState(false);
 
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
 
-  const handleLogin = () => {
-    if (!email || !password) {
-      !email && setEmailError(true);
+  const handleLogin = async () => {
+    if (!username || !password) {
+      !username && setUsernameError(true);
       !password && setPasswordError(true);
       return;
     }
 
     setPasswordError(false);
-    setEmailError(false);
-    // TODO: Rest of login logic once backend is hooked up
+    setUsernameError(false);
+
+    try {
+      const response = await loginUser({ variables: { username, password } });
+      console.log(response);
+
+      if (!response?.data?.login?.token) {
+        throw new Error("Invalid Credentials");
+      }
+
+      Auth.login(response?.data?.login?.token);
+    } catch (err) {
+      window.alert(err.message);
+      console.log(err);
+    }
   };
 
   return (
@@ -26,8 +46,8 @@ const Login = () => {
       <LoginCard>
         <Input
           label="username"
-          onChange={(event) => setEmail(event.target.value)}
-          error={emailError}
+          onChange={(event) => setUsername(event.target.value)}
+          error={usernameError}
         />
         <Input
           label="password"
