@@ -59,8 +59,9 @@ const Signup = () => {
     setConfirmPasswordError(false);
     setPasswordHelperText(" ");
 
-    const response = await registerUser({variables: { email, password, username }});
-    console.log(response);
+    const response = await registerUser({
+      variables: { email, password, username },
+    });
   };
 
   return (
