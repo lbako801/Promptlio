@@ -1,47 +1,34 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const secret = process.env.JWT_SECRET;
 const expiration = "2h";
 
-const verifyToken = (req, res, next) => {
-  const token =
-    req.body.token || req.query.token || req.headers["x-access-token"];
+module.exports = {
+  authMiddleware: function ({ req }) {
+    let token = req.body.token || req.query.token || req.headers.authorization;
 
-  if (!token) {
-    return res.status(403).send({
-      success: false,
-      message: "No token provided.",
-    });
-  }
-
-  try {
-    const decoded = jwt.verify(token, secret, { maxAge: expiration });
-    req.user = decoded;
-  } catch {
-    return res.status(401).send("Invalid token");
-  }
-
-  return next();
-};
-
-const createToken = async (req, res, next) => {
-  try {
-    const { username, password } = req.body;
-
-    if (!(username && password)) {
-      res.status(400).send("Please provide username and password");
+    if (req.headers.authorization) {
+      token = token.split(" ").pop().trim();
     }
 
-    const User = await User.findOne({ username });
-
-    if (User && (await bcrypt.compare(password, User.password))) {
-      const token = jwt.sign({ username }, secret, { expiresIn: expiration });
-
-      User.token = token;
-
-      res.status(200).send(User);
+    if (!token) {
+      return req;
     }
-  } catch (err) {
-  }
-};
 
-module.exports = { verifyToken, createToken };
+    try {
+      const { data } = jwt.verify(token, secret, { maxAge: expiration });
+      req.user = data;
+    } catch {
+      console.log("Invalid token");
+    }
+
+    return req;
+  },
+  signToken: function ({ email, username, _id }) {
+    const payload = { email, username, _id };
+    if (username && email && _id) {
+      return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
+    }
+    return null;
+  },
+};
