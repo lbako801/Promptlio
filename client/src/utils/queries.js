@@ -10,6 +10,7 @@ export const QUERY_POSTS = gql`
         title
       }
       created_at
+      caption
     }
   }
 `;
@@ -22,3 +23,20 @@ export const QUERY_PROMPTS = gql`
     }
   }
 `;
+
+export const QUERY_ME = gql`
+query GetMe {
+  getMe {
+    posts {
+      caption
+      creator {
+        username
+      }
+    }
+    activePrompt {
+      _id
+      title
+    }
+  }
+}
+`

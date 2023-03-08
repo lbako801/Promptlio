@@ -7,6 +7,9 @@ import { QUERY_POSTS } from "../../utils/queries";
 const Home = () => {
   const { loading, data } = useQuery(QUERY_POSTS);
   const { getPosts: posts } = data || [];
+  console.log(posts);
+
+  console.log(data)
 
   return (
     <Root>
