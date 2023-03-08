@@ -5,13 +5,18 @@ import {
   Button,
   LoadingCircle,
 } from "../../../components";
-import { useQuery } from "@apollo/client";
+
+import { useMutation, useQuery } from "@apollo/client";
 import { QUERY_PROMPTS } from "../../../utils/queries";
+import { SET_ACTIVE_PROMPT } from "../../../utils/mutations";
+
 import { Root } from "./PromptList.styles";
 
 const PromptList = () => {
   const { loading, data } = useQuery(QUERY_PROMPTS);
   const { getPrompts: prompts } = data || [];
+
+  const [setActivePrompt, { error }] = useMutation(SET_ACTIVE_PROMPT);
 
   const [displayedPrompts, setDisplayedPrompts] = useState(null);
   const [selectedPrompt, setSelectedPrompt] = useState(null);
@@ -33,8 +38,13 @@ const PromptList = () => {
     setDisplayedPrompts(newThreePrompts);
   };
 
-  const submitSelectedPrompt = () => {
-    // Mutation query to set the Users Prompt here
+  const submitSelectedPrompt = async () => {
+    const response = await setActivePrompt({
+      variables: { promptId: selectedPrompt?.id },
+    });
+
+    window.alert("Prompt successfully updated!");
+    window.location.replace("/");
   };
 
   useEffect(() => {

@@ -11,7 +11,7 @@ const typeDefs = gql`
     posts: [Post]
     prompts: [Prompt]
     comments: [Comment]
-    activePrompt: [Prompt]
+    activePrompt: Prompt
   }
 
   type Post {
@@ -57,7 +57,7 @@ const typeDefs = gql`
     register(username: String!, email: String!, password: String!): User
     createPost(caption: String, promptId: ID!): Post!
     createComment(post: ID!, creator: String!, text: String!): Comment
-    activePrompt(activePrompt: String): User
+    activePrompt(promptId: String!): User
     getCurrentPrompt(promptId: ID!): Prompt
   }
 `;

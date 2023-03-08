@@ -28,7 +28,6 @@ const Login = () => {
 
     try {
       const response = await loginUser({ variables: { username, password } });
-      console.log(response);
 
       if (!response?.data?.login?.token) {
         throw new Error("Invalid Credentials");

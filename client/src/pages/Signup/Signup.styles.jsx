@@ -20,6 +20,7 @@ const SignupCard = styled(Box)(({ theme }) => ({
   border: "2px solid gray",
   borderRadius: 10,
   backgroundColor: theme.palette.primary.bgAlt,
+  maxWidth: 350,
 }));
 
 const Form = styled("form")(({ theme }) => ({
