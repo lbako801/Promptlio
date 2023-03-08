@@ -16,19 +16,21 @@ const resolvers = {
     },
 
     getPosts: async () => {
-      const post = await Post.findAll({}).populate("prompt").populate("creator");
+      const post = await Post.find({}).populate("prompt").populate("creator");
       return post;
     },
 
     getMe: async (_, __, { user }) => {
-      const me = await User.findById(user._id).populate("activePrompt").populate({ path: "posts", populate: { path: "creator" } });
+      const me = await User.findById(user._id)
+        .populate("activePrompt")
+        .populate({ path: "posts", populate: { path: "creator" } });
 
-      if(!me) {
+      if (!me) {
         throw new ApolloError("User not found");
       }
 
       return me;
-    }
+    },
   },
 
   Mutation: {
@@ -104,18 +106,15 @@ const resolvers = {
 
         const newUser = await User.updateOne(
           { _id: user._id },
-          { $push: { posts: post}}
+          { $push: { posts: post } }
         );
-        console.log({newUser});
+        console.log({ newUser });
 
         return post;
-
       } catch (err) {
         console.log(err);
       }
-
     },
-
   },
 };
 

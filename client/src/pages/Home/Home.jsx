@@ -9,30 +9,22 @@ const Home = () => {
   const { getPosts: posts } = data || [];
   console.log(posts);
 
-  console.log(data)
+  console.log(data);
 
   return (
     <Root>
       {posts &&
         posts?.length > 0 &&
-        posts.map(
-          ({
-            prompt: { title: prompt },
-            photo,
-            creator: { username: creatorName },
-            created_at,
-            caption,
-          }) => (
-            <PostCard
-              key={prompt}
-              prompt={prompt}
-              photo={photo}
-              creatorName={creatorName}
-              createdAt={created_at}
-              caption={caption}
-            />
-          )
-        )}
+        posts.map(({ prompt, photo, creator, created_at, caption }, index) => (
+          <PostCard
+            key={index}
+            prompt={prompt?.title}
+            photo={photo}
+            creatorName={creator?.username}
+            createdAt={created_at}
+            caption={caption}
+          />
+        ))}
     </Root>
   );
 };
