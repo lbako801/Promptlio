@@ -1,6 +1,6 @@
 const { User, Post, Prompt, Comment } = require("./models/index");
 const { signToken } = require("../utils/auth");
-const { AuthenticationError } = require("apollo-server-express");
+const { AuthenticationError, ApolloError } = require("apollo-server-express");
 const bcrypt = require("bcrypt");
 
 const resolvers = {
@@ -53,13 +53,21 @@ const resolvers = {
     activePrompt: async (_, { promptId }, { user }) => {
       const prompt = await Prompt.findById(promptId);
 
+      if (!prompt) {
+        throw new ApolloError("Could not find that prompt :(");
+      }
+
       const updatedUser = await User.findOneAndUpdate(
         { _id: user._id },
-        { $set: { activePrompt: prompt._id } },
+        { $set: { activePrompt: prompt } },
         { new: true }
-      );
+      ).populate("activePrompt");
 
-      return updatedUser.activePrompt;
+      if (!updatedUser) {
+        throw new ApolloError("Could not update the User :(");
+      }
+
+      return updatedUser;
     },
 
     createPost: async (_, { promptId, caption }, context) => {

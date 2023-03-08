@@ -12,6 +12,7 @@ const StyledCard = styled(Card, {
   marginTop: theme.spacing(5),
   border: isSelected ? "4px solid green" : "",
   color: isSelected ? "green" : "",
+  transform: isSelected ? "scale(1.05)" : "none",
 
   "&:hover": {
     transform: "scale(1.05)",

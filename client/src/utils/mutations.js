@@ -15,3 +15,17 @@ export const LOGIN = gql`
     }
   }
 `;
+
+export const SET_ACTIVE_PROMPT = gql`
+  mutation Mutation($promptId: String!) {
+    activePrompt(promptId: $promptId) {
+      activePrompt {
+        title
+        _id
+      }
+      unique_id
+      email
+      password
+    }
+  }
+`;

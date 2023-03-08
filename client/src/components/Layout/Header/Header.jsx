@@ -16,6 +16,9 @@ const Header = () => {
       <Link href="/">
         <Icon src={logo}></Icon>
       </Link>
+      <HeaderNameLink>
+        Promptlio
+      </HeaderNameLink>
       <Links>
         {!loggedIn && (
           <>
