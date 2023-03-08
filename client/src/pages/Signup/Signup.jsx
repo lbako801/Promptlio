@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SignupContainer, SignupCard, Form } from "./Signup.styles";
 import { Input, Button } from "../../components";
 import { useMutation } from "@apollo/client";
 import { REGISTER_USER } from "../../utils/mutations";
 
 const Signup = () => {
-  const [registerUser, { error }] = useMutation(REGISTER_USER);
+  const [registerUser, { error: mutationError }] = useMutation(REGISTER_USER);
 
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState(false);
@@ -73,10 +73,15 @@ const Signup = () => {
     setConfirmPasswordError(false);
     setPasswordHelperText(" ");
 
-    // const response = await registerUser({
-    //   variables: { email, password, username },
-    // });
-    // console.log(response);
+    const response = await registerUser({
+      variables: { email, password, username },
+    });
+
+    if (!response.data.registerUser.unique_id) {
+      return window.alert("Error in user creation :'(");
+    }
+
+    window.alert("User registered successfully! You may now log in!");
   };
 
   return (
