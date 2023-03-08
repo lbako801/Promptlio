@@ -77,12 +77,13 @@ const Signup = () => {
       variables: { email, password, username },
     });
 
-    if (!response.data.registerUser.unique_id) {
+    console.log(response);
+
+    if (!response?.data?.register?.unique_id) {
       return window.alert("Error in user creation :'(");
     }
 
     window.alert("User registered successfully! You may now log in!");
-
   };
 
   return (

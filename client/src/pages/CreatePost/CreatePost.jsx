@@ -21,6 +21,7 @@ const CreatePost = () => {
 
     const response = await createPost({ variables: { caption, promptId: activePromptId}});
     console.log(response);
+    
   }
 
   return (
