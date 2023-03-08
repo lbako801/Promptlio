@@ -19,6 +19,11 @@ const resolvers = {
       const post = await Post.find({}).populate("prompt").populate("creator");
       return post;
     },
+
+    getMe: async () => {
+      const me = await User.findById(req.user.id);
+      return me;
+    }
   },
 
   Mutation: {
@@ -65,17 +70,38 @@ const resolvers = {
       return updatedUser;
     },
 
-    createPost: async (_, { promptId, caption }, { user }) => {
-      const post = new Post({
-        creator: user._id,
-        prompt: promptId,
-        caption,
-      });
+    createPost: async (_, { promptId, caption }, context) => {
+      try {
 
-      const savedPost = await post.save();
+        const prompt = await Prompt.findById(promptID);
 
-      return savedPost;
+        if (!prompt) {
+          throw new UserInputError("Prompt does not exist");
+        }
+
+        const post = new Post({
+          prompt,
+          caption,
+          creator: context.user._id,
+          createdAt: Date.now(),
+        });
+
+        await post.save();
+
+        const user = await User.findOneAndUpdate(
+          currentUser._id,
+          { $push: { posts: post } },
+          { new: true }
+        );
+
+        return post;
+
+      } catch (err) {
+        console.log(err);
+      }
+
     },
+
   },
 };
 

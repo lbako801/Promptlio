@@ -55,10 +55,11 @@ const typeDefs = gql`
   type Mutation {
     login(username: String!, password: String!): Auth
     register(username: String!, email: String!, password: String!): User
-    createPost(promptId: ID!, caption: String): Post!
+    createPost(caption: String, promptId: ID!): Post!
     createComment(post: ID!, creator: String!, text: String!): Comment
     activePrompt(promptId: String!): User
     getCurrentPrompt(promptId: ID!): Prompt
   }
 `;
+
 module.exports = typeDefs;
