@@ -23,7 +23,7 @@ const startApolloServer = async (typeDefs, resolvers) => {
   server.applyMiddleware({ app });
 
   dbConnection.once("open", () => {
-    seedUsers();
+    // seedUsers();
     app.listen(PORT, () => {
       console.log(`API server running on port ${PORT}!`);
       console.log(

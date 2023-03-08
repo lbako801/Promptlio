@@ -10,6 +10,7 @@ const Root = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.bg,
   color: theme.palette.primary.textMain,
   fontFamily: theme.typography.fontFamily.display,
+  marginTop: theme.spacing(4),
 }));
 
 export { Root };

@@ -6,7 +6,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import EditLocationAltIcon from "@mui/icons-material/EditLocationAlt";
 import LogoutIcon from '@mui/icons-material/Logout';
-import { HeaderBox, Icon, Links, StyledLink, Hover } from "./Header.styles";
+import { HeaderBox, Icon, Links, StyledLink, Hover, HeaderNameLink } from "./Header.styles";
 
 const Header = () => {
   const loggedIn = false;

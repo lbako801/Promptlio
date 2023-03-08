@@ -3,6 +3,14 @@ import { TextField } from "@mui/material";
 
 const StyledInput = styled(TextField)(({ theme }) => ({
   marginBottom: theme.spacing(4),
+  backgroundColor: theme.palette.primary.bg,
+  borderRadius: theme.borderRadius,
+
+  "& textarea": {
+    backgroundColor: theme.palette.primary.bg,
+    color: theme.palette.primary.light,
+    fontFamily: theme.typography.fontFamily.text
+  },
 
   "& input": {
     backgroundColor: theme.palette.primary.bg,

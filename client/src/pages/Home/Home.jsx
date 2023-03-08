@@ -8,6 +8,8 @@ const Home = () => {
   const { loading, data } = useQuery(QUERY_POSTS);
   const { getPosts: posts } = data || [];
 
+  console.log(data)
+
   return (
     <Root>
       {posts &&
