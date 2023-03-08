@@ -29,3 +29,11 @@ export const SET_ACTIVE_PROMPT = gql`
     }
   }
 `;
+
+export const CREATE_POST = gql`
+mutation Mutation($promptId: ID!, $caption: String) {
+  createPost(promptId: $promptId, caption: $caption) {
+    _id
+  }
+}
+`;

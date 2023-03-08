@@ -20,8 +20,13 @@ const resolvers = {
       return post;
     },
 
-    getMe: async () => {
-      const me = await User.findById(req.user.id);
+    getMe: async (_, __, { user }) => {
+      const me = await User.findById(user._id).populate("activePrompt").populate({ path: "posts", populate: { path: "creator" } });
+
+      if(!me) {
+        throw new ApolloError("User not found");
+      }
+
       return me;
     }
   },
@@ -72,27 +77,36 @@ const resolvers = {
 
     createPost: async (_, { promptId, caption }, context) => {
       try {
-
-        const prompt = await Prompt.findById(promptID);
+        const prompt = await Prompt.findById(promptId);
 
         if (!prompt) {
-          throw new UserInputError("Prompt does not exist");
+          throw new ApolloError("Prompt does not exist");
         }
+
+        const user = await User.findById(context.user._id);
 
         const post = new Post({
           prompt,
           caption,
-          creator: context.user._id,
+          creator: user,
           createdAt: Date.now(),
         });
 
         await post.save();
 
-        const user = await User.findOneAndUpdate(
-          currentUser._id,
-          { $push: { posts: post } },
-          { new: true }
+        // const user = await User.findOneAndUpdate
+
+        // user.updateOne(
+        //   { _id: context.user._id},
+        //   { $push: { posts: post } },
+        //   { new: true }
+        // );
+
+        const newUser = await User.updateOne(
+          { _id: user._id },
+          { $push: { posts: post}}
         );
+        console.log({newUser});
 
         return post;
 

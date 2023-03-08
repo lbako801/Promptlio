@@ -9,6 +9,8 @@ const Home = () => {
   const { getPosts: posts } = data || [];
   console.log(posts);
 
+  console.log(data)
+
   return (
     <Root>
       {posts &&

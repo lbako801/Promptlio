@@ -15,6 +15,7 @@ const typeDefs = gql`
   }
 
   type Post {
+    _id: ID
     creator: User
     prompt: Prompt
     caption: String
