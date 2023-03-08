@@ -82,6 +82,7 @@ const Signup = () => {
     }
 
     window.alert("User registered successfully! You may now log in!");
+
   };
 
   return (
