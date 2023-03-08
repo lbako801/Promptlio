@@ -1,7 +1,7 @@
 const express = require("express");
 const dbConnection = require("./config/connection");
 const { ApolloServer } = require("apollo-server-express");
-const seedUsers = require("./seeds.js");
+const seedPromptData = require("./seeds/promptSeeds.js");
 const { authMiddleware } = require("./utils/auth");
 
 const typeDefs = require("./schema/typeDefs");
@@ -23,7 +23,7 @@ const startApolloServer = async (typeDefs, resolvers) => {
   server.applyMiddleware({ app });
 
   dbConnection.once("open", () => {
-    // seedUsers();
+    seedPromptData();
     app.listen(PORT, () => {
       console.log(`API server running on port ${PORT}!`);
       console.log(
