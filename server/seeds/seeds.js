@@ -1,4 +1,4 @@
-const { User, Post, Prompt } = require("./schema/models/index");
+const { User, Post, Prompt } = require("../schema/models/index");
 
 async function seedUsers() {
   const userData = [
@@ -95,40 +95,10 @@ async function seedUsers() {
   ];
 
   try {
-    await User.deleteMany({});
-    await Prompt.deleteMany({});
+    await User.deleteMany({});   
     await Post.deleteMany({});
 
     const user = await User.create(userData);
-
-    const promptData = [
-      {
-        title: "Find a new hiking spot!",
-        category: "1",
-      },
-      {
-        title: "Find a coffee shop!",
-        category: "2",
-      },
-      {
-        title: "Toss a coin to your local Witcher!",
-        category: "3",
-      },
-      {
-        title: "Take the ring to Mt. Doom",
-        category: "1",
-      },
-      {
-        title: "Refactor the promptlio codebase",
-        category: "3",
-      },
-      {
-        title: "Ask Loren why categories are a required field for prompts",
-        category: "1",
-      },
-    ];
-
-    const prompt = await Prompt.create(promptData);
 
     const postData = [
       {

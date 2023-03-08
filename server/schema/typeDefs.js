@@ -50,6 +50,7 @@ const typeDefs = gql`
     getPrompts: [Prompt]
     post(id: Int!): Post
     comment(post: ID): Comment
+    getMe: User
   }
 
   type Mutation {
