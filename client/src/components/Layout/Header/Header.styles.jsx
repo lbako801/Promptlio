@@ -29,6 +29,11 @@ const Icon = styled("img")(({ theme }) => ({
 
 const Links = styled(Box)(({ theme }) => ({}));
 
+const HeaderNameLink = styled(Box)(({ theme }) => ({
+  fontFamily: theme.typography.fontFamily.display,
+  fontSize: 50,
+}));
+
 const StyledLink = styled(Link)(({ theme }) => ({
   margin: theme.spacing(0, 1),
   color: "white",
@@ -40,4 +45,4 @@ const Hover = styled(Tooltip)(({ theme }) => ({
   },
 }));
 
-export { HeaderBox, Icon, Links, StyledLink, Hover };
+export { HeaderBox, Icon, Links, HeaderNameLink, StyledLink, Hover };

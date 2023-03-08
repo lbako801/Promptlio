@@ -3,7 +3,7 @@ import React from "react";
 import logo from "../../../assets/logos/promptlio-favicon.png";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { HeaderBox, Icon, Links, StyledLink, Hover } from "./Header.styles";
+import { HeaderBox, Icon, Links, HeaderNameLink, StyledLink, Hover } from "./Header.styles";
 
 const Header = () => {
   const loggedIn = false;
@@ -13,6 +13,9 @@ const Header = () => {
       <Link href="/">
         <Icon src={logo}></Icon>
       </Link>
+      <HeaderNameLink>
+        Promptlio
+      </HeaderNameLink>
       <Links>
         {!loggedIn && (
           <>
