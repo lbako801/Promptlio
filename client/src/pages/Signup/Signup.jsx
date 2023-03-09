@@ -87,7 +87,7 @@ const Signup = () => {
       return setSnackbarOpen(true);
     }
 
-    setAlertProps({ message: "Logged in successfully! :D", severity: "success"})
+    setAlertProps({ message: "User created successfully! :D", severity: "success"})
     setSnackbarOpen(true);
   };
 
