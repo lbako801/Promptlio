@@ -17,7 +17,6 @@ const PromptCard = ({ title, id, stateSetter, isSelected }) => {
 };
 
 PromptCard.defaultProps = {
-  // handleClick: () => window.alert("ERROR IN SETTING PROMPT"),
   title:
     "There should be a prompt for you here, but for some reason we got an error instead :(",
 };

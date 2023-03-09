@@ -147,7 +147,6 @@ const Signup = () => {
       </SignupCard>
       <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center'}} open={snackbarOpen} autoHideDuration={2000} onClose={() => {
         setSnackbarOpen(false);
-        if(alertProps?.severity === "success") window.location.assign('/login');
       }}>
         <Alert severity={alertProps?.severity} sx={{ width: '100%' }}>
           {alertProps?.message}

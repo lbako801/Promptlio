@@ -108,7 +108,6 @@ const PromptList = () => {
       )}
       <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center'}} open={snackbarOpen} autoHideDuration={2000} onClose={() => {
         setSnackbarOpen(false);
-        if(alertProps?.severity === 'success') return window.location.assign("/create-post");
       }}>
         <Alert severity={alertProps?.severity} sx={{ width: '100%' }}>
           {alertProps?.message}

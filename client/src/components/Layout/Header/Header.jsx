@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import logo from "../../../assets/logos/promptlio-favicon.png";
 import LoginIcon from "@mui/icons-material/Login";
@@ -18,6 +18,7 @@ import Auth from "../../../utils/auth";
 
 const Header = () => {
   const loggedIn = Auth.loggedIn();
+  const navigate = useNavigate();
 
   return (
     <HeaderBox>
@@ -57,6 +58,7 @@ const Header = () => {
                 <LogoutIcon
                   onClick={(e) => {
                     Auth.logout();
+                    navigate('/login', { replace: true });
                   }}
                   sx={{ fontSize: 50 }}
                 />

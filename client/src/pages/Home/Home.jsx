@@ -1,6 +1,6 @@
 import React from "react";
 import { Root } from "./Home.styles";
-import { PostCard } from "../../components";
+import { Header, PostCard } from "../../components";
 import { useQuery } from "@apollo/client";
 import { QUERY_POSTS } from "../../utils/queries";
 
