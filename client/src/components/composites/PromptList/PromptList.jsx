@@ -5,6 +5,7 @@ import {
   Button,
   LoadingCircle,
 } from "../../../components";
+import { Snackbar, Alert } from "@mui/material";
 
 import { useMutation, useQuery } from "@apollo/client";
 import { QUERY_PROMPTS } from "../../../utils/queries";
@@ -16,7 +17,10 @@ const PromptList = () => {
   const { loading, data } = useQuery(QUERY_PROMPTS);
   const { getPrompts: prompts } = data || [];
 
-  const [setActivePrompt, { error }] = useMutation(SET_ACTIVE_PROMPT);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [alertProps, setAlertProps] = useState({});
+
+  const [setActivePrompt, { error: setPromptError }] = useMutation(SET_ACTIVE_PROMPT);
 
   const [displayedPrompts, setDisplayedPrompts] = useState(null);
   const [selectedPrompt, setSelectedPrompt] = useState(null);
@@ -38,13 +42,25 @@ const PromptList = () => {
     setDisplayedPrompts(newThreePrompts);
   };
 
+  useEffect(() => {
+    if(setPromptError){
+      setAlertProps({ message: "Error in setting prompt. Are you logged in?", severity: 'error'})
+      return setSnackbarOpen(true);
+    }
+  }, [setPromptError])
+
   const submitSelectedPrompt = async () => {
     const response = await setActivePrompt({
       variables: { promptId: selectedPrompt?.id },
     });
 
-    window.alert("Prompt successfully updated!");
-    window.location.replace("/");
+    if(!response?.data?.activePrompt?.unique_id){
+      setAlertProps({ message: "Error in creating post :(", severity: "error" })
+      return setSnackbarOpen(true);
+    }
+
+    setAlertProps({ message: "Active Prompt set successfully :D", severity: "success"})
+    return setSnackbarOpen(true);
   };
 
   useEffect(() => {
@@ -90,6 +106,14 @@ const PromptList = () => {
           </Button>
         </>
       )}
+      <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center'}} open={snackbarOpen} autoHideDuration={2000} onClose={() => {
+        setSnackbarOpen(false);
+        if(alertProps?.severity === 'success') return window.location.assign("/create-post");
+      }}>
+        <Alert severity={alertProps?.severity} sx={{ width: '100%' }}>
+          {alertProps?.message}
+        </Alert>
+      </Snackbar>
     </Root>
   );
 };
