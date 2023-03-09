@@ -11,19 +11,7 @@ async function seedPromptData() {
       category: "2",
     },
     {
-      title: "Toss a coin to your local Witcher!",
-      category: "3",
-    },
-    {
       title: "Take the ring to Mt. Doom",
-      category: "1",
-    },
-    {
-      title: "Refactor the promptlio codebase",
-      category: "3",
-    },
-    {
-      title: "Ask Loren why categories are a required field for prompts",
       category: "1",
     },
     {
