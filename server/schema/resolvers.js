@@ -16,7 +16,7 @@ const resolvers = {
     },
 
     getPosts: async () => {
-      const post = await Post.find({}).populate("prompt").populate("creator");
+      const post = await Post.find({}).sort({created_at: -1}).populate("prompt").populate("creator");
       return post;
     },
 

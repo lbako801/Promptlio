@@ -1,4 +1,4 @@
-import { Link } from "@mui/material";
+import { Link } from "react-router-dom";
 import React from "react";
 import logo from "../../../assets/logos/promptlio-favicon.png";
 import LoginIcon from "@mui/icons-material/Login";
@@ -21,19 +21,19 @@ const Header = () => {
 
   return (
     <HeaderBox>
-      <Link href="/">
+      <Link to="/">
         <Icon src={logo}></Icon>
       </Link>
       <HeaderNameLink>Promptlio</HeaderNameLink>
       <Links>
         {!loggedIn && (
           <>
-            <StyledLink href="/login">
+            <StyledLink to="/login">
               <Hover title="Login">
                 <LoginIcon sx={{ fontSize: 50 }} />
               </Hover>
             </StyledLink>
-            <StyledLink href="/signup">
+            <StyledLink to="/signup">
               <Hover title="Sign Up">
                 <PersonAddIcon sx={{ fontSize: 50 }} />
               </Hover>
@@ -42,12 +42,12 @@ const Header = () => {
         )}
         {loggedIn && (
           <>
-            <StyledLink href="/create-post">
+            <StyledLink to="/create-post">
               <Hover title="Create Post">
                 <EditLocationAltIcon sx={{ fontSize: 50 }} />
               </Hover>
             </StyledLink>
-            <StyledLink href="/choose-prompt">
+            <StyledLink to="/choose-prompt">
               <Hover title="Select Prompt">
                 <SpeakerNotesIcon sx={{ fontSize: 50 }} />
               </Hover>

@@ -1,4 +1,5 @@
-import { styled, Box, Link, Tooltip } from "@mui/material";
+import { styled, Box, Tooltip } from "@mui/material";
+import { Link } from 'react-router-dom';
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   height: "auto",

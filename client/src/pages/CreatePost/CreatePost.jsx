@@ -22,6 +22,12 @@ const CreatePost = () => {
     const response = await createPost({ variables: { caption, promptId: activePromptId}});
     console.log(response);
     
+    if(!response?.data?.createPost?._id) {
+      window.alert("Post creation failed, try again later :'(");
+    }
+
+    window.alert("Post created successfully :D!");
+    window.location.assign("/");
   }
 
   return (

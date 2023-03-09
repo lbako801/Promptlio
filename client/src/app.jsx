@@ -41,10 +41,10 @@ const app = () => {
             <Header />
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/choose-prompt" element={<ChoosePrompt />} />
-              <Route path="/create-post" element={<CreatePost/>} />
+              <Route exact path="/login" element={<Login />} />
+              <Route exact path="/signup" element={<Signup />} />
+              <Route exact path="/choose-prompt" element={<ChoosePrompt />} />
+              <Route exact path="/create-post" element={<CreatePost/>} />
             </Routes>
           </ThemeProvider>
         </Router>
