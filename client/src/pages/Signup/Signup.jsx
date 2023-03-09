@@ -4,8 +4,10 @@ import { Input, Button } from "../../components";
 import { useMutation } from "@apollo/client";
 import { REGISTER_USER } from "../../utils/mutations";
 
+import { Snackbar, Alert } from "@mui/material";
+
 const Signup = () => {
-  const [registerUser, { error: mutationError }] = useMutation(REGISTER_USER);
+  const [registerUser, { error: signupError }] = useMutation(REGISTER_USER);
 
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState(false);
@@ -20,6 +22,9 @@ const Signup = () => {
 
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [alertProps, setAlertProps] = useState({});
 
   const handleSubmit = async (e) => {
     let error = false;
@@ -77,14 +82,21 @@ const Signup = () => {
       variables: { email, password, username },
     });
 
-    console.log(response);
-
     if (!response?.data?.register?.unique_id) {
-      return window.alert("Error in user creation :'(");
+      setAlertProps({ message: "Could not create user :( So sad", severity: 'error'})
+      return setSnackbarOpen(true);
     }
 
-    window.alert("User registered successfully! You may now log in!");
+    setAlertProps({ message: "Logged in successfully! :D", severity: "success"})
+    setSnackbarOpen(true);
   };
+
+  useEffect(() => {
+    if(signupError){
+      setAlertProps({ message: "Could not create account :( So sad", severity: 'error'})
+      return setSnackbarOpen(true);
+    }
+  }, [signupError]);
 
   return (
     <SignupContainer>
@@ -133,6 +145,14 @@ const Signup = () => {
           </Button>
         </Form>
       </SignupCard>
+      <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center'}} open={snackbarOpen} autoHideDuration={2000} onClose={() => {
+        setSnackbarOpen(false);
+        if(alertProps?.severity === "success") window.location.assign('/login');
+      }}>
+        <Alert severity={alertProps?.severity} sx={{ width: '100%' }}>
+          {alertProps?.message}
+        </Alert>
+      </Snackbar>
     </SignupContainer>
   );
 };

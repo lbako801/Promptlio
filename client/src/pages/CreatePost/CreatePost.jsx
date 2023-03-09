@@ -53,7 +53,7 @@ const CreatePost = () => {
           handleSubmit();
         }}>Create Post!</Button>
       </StyledCard>
-      <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center'}} open={snackbarOpen} autoHideDuration={6000} onClose={() => {
+      <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center'}} open={snackbarOpen} autoHideDuration={2000} onClose={() => {
         setSnackbarOpen(false);
         if(alertProps?.severity === 'success') return window.location.assign("/");
       }}>
