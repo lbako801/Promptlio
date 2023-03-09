@@ -96,19 +96,10 @@ const resolvers = {
 
         await post.save();
 
-        // const user = await User.findOneAndUpdate
-
-        // user.updateOne(
-        //   { _id: context.user._id},
-        //   { $push: { posts: post } },
-        //   { new: true }
-        // );
-
         const newUser = await User.updateOne(
           { _id: user._id },
           { $push: { posts: post } }
         );
-        console.log({ newUser });
 
         return post;
       } catch (err) {
