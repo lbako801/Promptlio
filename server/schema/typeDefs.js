@@ -1,6 +1,12 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
+  scalar Upload
+
+  type File {
+    url: String!
+  }
+
   type User {
     unique_id: ID
     username: String
@@ -61,6 +67,7 @@ const typeDefs = gql`
     createComment(post: ID!, creator: String!, text: String!): Comment
     activePrompt(promptId: String!): User
     getCurrentPrompt(promptId: ID!): Prompt
+    uploadPhoto(file: Upload!): File!
   }
 `;
 
