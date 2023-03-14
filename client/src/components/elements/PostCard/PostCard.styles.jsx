@@ -23,12 +23,25 @@ const CreatedAt = styled(Box)(({ theme }) => ({
 const Prompt = styled(Box)(({ theme }) => ({
   textAlign: "center",
   lineHeight: 1.3,
-  marginBottom: theme.spacing(1)
+  marginBottom: theme.spacing(1),
 }));
 
 const Caption = styled(Box)(({ theme }) => ({
   textAlign: "center",
-  fontFamily: theme.typography.fontFamily.text
+  fontFamily: theme.typography.fontFamily.text,
 }));
 
-export { CreatorInfo, CreatorName, CreatedAt, Prompt, Caption, StyledPostCard };
+const Image = styled("img")(({ theme }) => ({
+  objectFit: "contain",
+  maxHeight: 200,
+}));
+
+export {
+  CreatorInfo,
+  CreatorName,
+  CreatedAt,
+  Prompt,
+  Caption,
+  StyledPostCard,
+  Image,
+};

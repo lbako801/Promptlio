@@ -6,6 +6,7 @@ import {
   CreatedAt,
   Prompt,
   Caption,
+  Image,
 } from "./PostCard.styles";
 
 const PostCard = ({ prompt, photo, creatorName, createdAt, caption }) => {
@@ -16,7 +17,7 @@ const PostCard = ({ prompt, photo, creatorName, createdAt, caption }) => {
 
   return (
     <StyledPostCard>
-      {/* TODO: implement photos when ready */}
+      <Image src={photo}></Image>
       <CreatorInfo>
         <CreatorName>{creatorName}</CreatorName>
         <CreatedAt>{formattedDate}</CreatedAt>

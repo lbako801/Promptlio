@@ -11,6 +11,7 @@ export const QUERY_POSTS = gql`
       }
       created_at
       caption
+      photo
     }
   }
 `;
@@ -25,18 +26,18 @@ export const QUERY_PROMPTS = gql`
 `;
 
 export const QUERY_ME = gql`
-query GetMe {
-  getMe {
-    posts {
-      caption
-      creator {
-        username
+  query GetMe {
+    getMe {
+      posts {
+        caption
+        creator {
+          username
+        }
+      }
+      activePrompt {
+        _id
+        title
       }
     }
-    activePrompt {
-      _id
-      title
-    }
   }
-}
-`
+`;

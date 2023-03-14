@@ -5,7 +5,8 @@ const bcrypt = require("bcrypt");
 const GraphQLUpload = require("graphql-upload/GraphQLUpload.js");
 const fs = require("fs");
 const path = require("path");
-const { v4: uuidv4 } = require("uuid");
+require("dotenv").config();
+const uploadPhoto = require("./resolverUtils/uploadPhoto");
 
 const resolvers = {
   Upload: GraphQLUpload,
@@ -86,7 +87,7 @@ const resolvers = {
       return updatedUser;
     },
 
-    createPost: async (_, { promptId, caption }, context) => {
+    createPost: async (_, { promptId, caption, photo }, context) => {
       try {
         const prompt = await Prompt.findById(promptId);
 
@@ -96,11 +97,15 @@ const resolvers = {
 
         const user = await User.findById(context.user._id);
 
+        const imageRes = await uploadPhoto(photo);
+        const { url: imageUrl } = imageRes;
+
         const post = new Post({
           prompt,
           caption,
           creator: user,
           createdAt: Date.now(),
+          photo: imageUrl,
         });
 
         await post.save();
@@ -116,23 +121,8 @@ const resolvers = {
       }
     },
     uploadPhoto: async (_, { file }, context) => {
-      const { createReadStream, mimetype } = await file;
-
-      if (mimetype !== "image/jpeg" && mimetype !== "image/png") {
-        throw new ApolloError("Only JPEG and PNG images are allowed");
-      }
-
-      const newImgName = `${uuidv4()}.jpg`;
-
-      const stream = createReadStream();
-      const pathName = path.join(__dirname, "../tempUploads", newImgName);
-      await stream.pipe(fs.createWriteStream(pathName));
-
-      // TODO: upload image to cloudinary, and get the public url for the image from the response
-
-      return {
-        url: `TEST URL DOG`,
-      };
+      const response = await uploadPhoto(file);
+      return null;
     },
   },
 };

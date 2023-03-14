@@ -28,6 +28,7 @@ const typeDefs = gql`
     likes: [User]
     created_at: String
     comments: [Comment]
+    photo: String
   }
 
   type Comment {
@@ -63,7 +64,7 @@ const typeDefs = gql`
   type Mutation {
     login(username: String!, password: String!): Auth
     register(username: String!, email: String!, password: String!): User
-    createPost(caption: String, promptId: ID!): Post!
+    createPost(caption: String, promptId: ID!, photo: Upload!): Post!
     createComment(post: ID!, creator: String!, text: String!): Comment
     activePrompt(promptId: String!): User
     getCurrentPrompt(promptId: ID!): Prompt

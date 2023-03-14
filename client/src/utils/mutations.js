@@ -31,9 +31,17 @@ export const SET_ACTIVE_PROMPT = gql`
 `;
 
 export const CREATE_POST = gql`
-mutation Mutation($promptId: ID!, $caption: String) {
-  createPost(promptId: $promptId, caption: $caption) {
-    _id
+  mutation Mutation($promptId: ID!, $caption: String, $photo: Upload!) {
+    createPost(promptId: $promptId, caption: $caption, photo: $photo) {
+      _id
+    }
   }
-}
+`;
+
+export const UPLOAD_PHOTO = gql`
+  mutation Mutation($file: Upload!) {
+    uploadPhoto(file: $file) {
+      url
+    }
+  }
 `;
